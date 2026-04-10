@@ -27,6 +27,8 @@ Empirical analysis reveals that earthquakes of magnitude ≥6.5 are relatively r
 
 In the event of a large enough earthquake (≥7.7) this dynamic changes, as Omori's law will kick in and the probability of another earthquake of ≥6.5 before the end of the week decays geometrically instead of exponentially as implied by the Poisson model. In such an event, the Poisson model would overestimate the probability of no earthquakes of ≥6.5 and underestimate the probability of 1 or more earthquakes of ≥6.5. To account for this, we can develop a more sophisticated prediction procedure by fitting Omori's law after a large earthquake (≥7.7). Alternatively, we can try to mitigate our exposure to large earthquakes by [buying another contract.](https://polymarket.com/event/how-many-7pt0-or-above-earthquakes-by-june-30) 
 
+It should be noted that earthquakes of size ≥5.5 are much more frequent and as a result pricing corresponding contracts is more [involved](https://polymarket.com/event/how-many-5pt5-or-above-earthquakes-april-6-april-12).
+
 ---
 
 ## Analysis and Fit
