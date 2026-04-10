@@ -33,6 +33,12 @@ It should be noted that earthquakes of size ≥5.5 are much more frequent and as
 
 ## Analysis and Fit
 
+We estimate the Poisson rate $\lambda$ to be 0.77. The price of the contract at time $t$ and total number of earthquakes $k$ after seeing $r$ significant earthquakes as
+$$p(t, k, r) = \frac{1}{(k-r)!}e^{-\lambda(T-t)}[\lambda(T-t)]^{k-r}$$
+where $T$ is the expiry. The market prices appears to be reasonably close to the empirical and Poisson estimates. As of now, the price descrepancy for $k=0$ is about 3.4% and the bid-ask spread is about 2%. 
+
+![Prices and Probabilites](price_vs_model.png)
+
 The following table depicts the empirical probability of an earthquake of magnitude ≥M happening in a given period of length $k=$1, 2,..., 7 days.
 
 | Min Magnitude M | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
@@ -47,12 +53,6 @@ The following table depicts the empirical probability of an earthquake of magnit
 | 8.0 | 0.00190 | 0.00380 | 0.00580 | 0.00770 | 0.00960 | 0.0115 | 0.0134 |
 
 ![Table](empirical_prob_table.png)
-
-We estimate the Poisson rate $\lambda$ to be 0.77. The price of the contract at time $t$ and total number of earthquakes $k$ after seeing $r$ significant earthquakes as
-$$p(t, k, r) = \frac{1}{(k-r)!}e^{-\lambda(T-t)}[\lambda(T-t)]^{k-r}$$
-where $T$ is the expiry. The market prices appears to be reasonably close to the empirical and Poisson estimates. As of now, the price descrepancy for $k=0$ is about 3.4% and the bid-ask spread is about 2%. 
-
-![Prices and Probabilites](price_vs_model.png)
 
 ---
 
