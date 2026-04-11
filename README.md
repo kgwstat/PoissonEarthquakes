@@ -56,8 +56,12 @@ The following table depicts the empirical probability of an earthquake of magnit
 | 7.5 | 0.0120 | 0.0241 | 0.0362 | 0.0482 | 0.0603 | 0.0724 | 0.0845 |
 | 8.0 | 0.00190 | 0.00380 | 0.00580 | 0.00770 | 0.00960 | 0.0115 | 0.0134 |
 
+Or as a plot:
 
-![Table](empirical_prob_table.png)
+<p align="center">
+  <img src="./empirical_prob_table.png" alt="drawing" width="300"/>
+</p>
+
 
 
 ---
