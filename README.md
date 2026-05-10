@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project investigates the prices of contracts on [Polymarket](https://polymarket.com/event/how-many-6pt5-or-above-earthquakes-april-6-12) that ask: *"How many magnitude 6.5+ earthquakes will occur in a given week?"*
+This project investigates the prices of contracts on [Polymarket](https://polymarket.com/event/how-many-6pt5-or-above-earthquakes-april-6-12) that ask: *"How many magnitude 6.5+ earthquakes will occur in a given week?"* 
 
 The key insight is that earthquake counts $N(t)$ for magnitudes 6.5+ roughly follow a **homogeneous Poisson process**, which lets us update probabilities in real time as the week progresses and earthquakes are observed.
 
@@ -19,29 +19,13 @@ The distribution of earthquake timings and magnitudes can be thought of as a mar
 
 ---
 
-## Pricing the contract
+## Pricing the contract: A Baseline
 
 We are essentially trying to estimate the probablity that the number of earthquakes of magnitude greater than or equal to 6.5 when $t = 0, 1,, \dots, 6$ days are left is $k = 0, 1, 2.$ 
 
 Empirical analysis reveals that earthquakes of magnitude ≥6.5 are relatively rare and the probabilty that there will be none in a given week is about 0.50. In the event there is an earthquake of ≥6.5, its aftershocks are unlikely to be ≥6.5 unless its magnitude is ≥7.7 according to Bath's law. But earthquakes of such magnitude are even rarer and the probability of one happening in a given week is less than 0.05. Therefore, homogenous Poisson process provides a good baseline for in more than 95% of cases.
 
 In the event of a large enough earthquake (≥7.7) this dynamic changes, as Omori's law will kick in and the probability of another earthquake of ≥6.5 before the end of the week decays geometrically instead of exponentially as implied by the Poisson model. In such an event, the Poisson model would overestimate the probability of no earthquakes of ≥6.5 and underestimate the probability of 1 or more earthquakes of ≥6.5. To account for this, we can develop a more sophisticated prediction procedure by fitting Omori's law which will momentarily briefly diminish (or elevate) the probabilities after a large earthquake (≥7.7) . Alternatively, we can try to mitigate our exposure to large earthquakes by [buying another contract.](https://polymarket.com/event/how-many-7pt0-or-above-earthquakes-by-june-30) 
-
-It should be noted that earthquakes of size ≥5.5 are much more frequent and as a result pricing corresponding contracts is much more [involved](https://polymarket.com/event/how-many-5pt5-or-above-earthquakes-april-6-april-12).
-
----
-
-## Analysis and Fit
-
-We estimate the Poisson rate $\lambda$ to be 0.77. The price of the contract at time $t$ and total number of earthquakes $k$ after seeing $r$ significant earthquakes as
-
-$$
-p(t, k, r) = \frac{1}{(k-r)!}e^{-\lambda(T-t)}[\lambda(T-t)]^{k-r}
-$$
-
-where $T$ is the expiry. The market prices appears to be reasonably close to the empirical and Poisson estimates. As of now, the price descrepancy for $k=0$ is about 3.4% and the bid-ask spread is about 2%. 
-
-![Prices and Probabilites](price_vs_model.png)
 
 The following table depicts the empirical probability of an earthquake of magnitude ≥M happening in a given period of length $k=$1, 2,..., 7 days.
 
@@ -63,6 +47,32 @@ Or as a plot:
 </p>
 
 
+It should be noted that earthquakes of size ≥5.5 are much more frequent and as a result pricing corresponding contracts is much more [involved](https://polymarket.com/event/how-many-5pt5-or-above-earthquakes-april-6-april-12).
+
+
+We estimate the Poisson rate $\lambda$ to be 0.77. The price of the contract at time $t$ and total number of earthquakes $k$ after seeing $r$ significant earthquakes as
+
+$$
+p(t, k, r) = \frac{1}{(k-r)!}e^{-\lambda(T-t)}[\lambda(T-t)]^{k-r}
+$$
+
+where $T$ is the expiry. The market prices appears to be reasonably close to the empirical and Poisson estimates. As of now, the price descrepancy for $k=0$ is about 3.4% and the bid-ask spread is about 2%. 
+
+![Prices and Probabilites](price_vs_model.png)
+
+---
+
+## Pricing the contract: Accounting for Aftershocks
+
+We need a slightly more sophisticated model to account for the deviation from the Poisson model that occurs after a large earthquake. In essence, we are trying to predict the probability distribution of $\# \lbrace{j: 0 \leq T_{j} \leq T, M_{j} \geq m\rbrace}$ given $\{(T_{j}, M_{j}): 0 \leq T_{j} \leq t\}$, that is
+$$\# \lbrace{j: 0 \leq T_{j} \leq T, M_{j} \geq m\rbrace} \qquad |\qquad \{(T_{j}, M_{j}): 0 \leq T_{j} \leq t\}.$$
+
+A plausible way to go about this is to model the local intensity as 
+$$\lambda(t) = \lambda + \sum_{j: o \leq T_{j} \leq t} g(t-T_{j}, M_{j})$$
+and to try to estimate $g$. The price can then be calculated as
+$$
+p(t, k, r) = \frac{1}{(k-r)!}e^{-\Lambda(T,t)}[\Lambda(T,t)]^{k-r} \,\,\,\mathrm{where}\,\,\, \Lambda(T, t) = \int_{t}^{T}\lambda(u)\,du.$$
+One such model of earth quake intensity is ETAS (epidemic-type aftershock sequence) and it has been widely studied in the literature. 
 
 ---
 
@@ -73,4 +83,4 @@ Historical earthquake data can be obtained from the [USGS Earthquake Catalog](ht
 
 ## Acknowledgements
 
-The author would like to thank Dr. Tomas Rubin for the idea and Claude code for the implementation.
+The author would like to thank Dr. Tomas Rubin for the suggestion.
